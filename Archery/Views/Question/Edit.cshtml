@@ -1,0 +1,64 @@
+﻿@model Archery.Models.Question
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Question</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="GradeId" class="control-label"></label>
+                <select asp-for="GradeId" class="form-control" asp-items="ViewBag.GradeId"></select>
+                <span asp-validation-for="GradeId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SujetId" class="control-label"></label>
+                <select asp-for="SujetId" class="form-control" asp-items="ViewBag.SujetId"></select>
+                <span asp-validation-for="SujetId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="QuestionText" class="control-label"></label>
+                <input asp-for="QuestionText" class="form-control" />
+                <span asp-validation-for="QuestionText" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Difficult" class="control-label"></label>
+                <input asp-for="Difficult" class="form-control" />
+                <span asp-validation-for="Difficult" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Explanation" class="control-label"></label>
+                <input asp-for="Explanation" class="form-control" />
+                <span asp-validation-for="Explanation" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="GoodAnswers" class="control-label"></label>
+                <input asp-for="GoodAnswers" class="form-control" />
+                <span asp-validation-for="GoodAnswers" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BadAnswers" class="control-label"></label>
+                <input asp-for="BadAnswers" class="form-control" />
+                <span asp-validation-for="BadAnswers" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

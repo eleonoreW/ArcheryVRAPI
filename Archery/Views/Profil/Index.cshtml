@@ -1,0 +1,47 @@
+﻿@model IEnumerable<Archery.Models.Profil>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Genre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nom)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Couleur)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EstDroitier)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Genre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nom)
+            </td>
+            <td style="font-size:35px; color:#@Html.DisplayFor(modelItem => item.Couleur)" ;>
+                &#x25A0;
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EstDroitier)
+            </td>
+            <td>
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
