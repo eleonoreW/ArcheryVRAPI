@@ -28,10 +28,10 @@ namespace Archery.Controllers
         }
 
         // GET: api/ProgressionAPI/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Progression>> GetProgression(int id)
+        [HttpGet("{idProfil}")]
+        public async Task<ActionResult<Progression>> GetProgression(int idProfil)
         {
-            var progression = await _context.Progression.FindAsync(id);
+            var progression = await _context.Progression.FirstOrDefaultAsync(i => i.ProfilId == idProfil);
 
             if (progression == null)
             {

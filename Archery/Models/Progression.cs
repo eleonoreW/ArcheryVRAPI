@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Archery.Models
 {
@@ -8,7 +9,9 @@ namespace Archery.Models
     public partial class Progression
     {
         public int Id { get; set; }
+
         public int GradeId { get; set; }
+        [ForeignKey("Profil")]
         public int ProfilId { get; set; }
         public int? DifficulteMaths { get; set; }
         public int? Xpmaths { get; set; }
