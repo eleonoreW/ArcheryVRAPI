@@ -44,33 +44,6 @@ namespace Archery.Controllers
 
             return View(progression);
         }
-
-        // GET: Progression/Create
-        public IActionResult Create()
-        {
-            ViewData["GradeId"] = new SelectList(_context.Grade, "Id", "Nom");
-            ViewData["ProfilId"] = new SelectList(_context.Profil, "Id", "Nom");
-            return View();
-        }
-
-        // POST: Progression/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,GradeId,ProfilId,DifficulteMaths,Xpmaths,DifficulteFrancais,Xpfrancais,DifficulteAnglais,Xpanglais")] Progression progression)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(progression);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["GradeId"] = new SelectList(_context.Grade, "Id", "Nom", progression.GradeId);
-            ViewData["ProfilId"] = new SelectList(_context.Profil, "Id", "Nom", progression.ProfilId);
-            return View(progression);
-        }
-
         // GET: Progression/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {

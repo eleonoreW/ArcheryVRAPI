@@ -42,45 +42,33 @@ namespace Archery.Controllers
         }
 
         // PUT: api/ProgressionAPI/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutProgression(int id, Progression progression)
+        [HttpPut("{idProfil}")]
+        public async Task<IActionResult> PutProgression(int idProfil, Progression progression)
         {
-            if (id != progression.Id)
+            using (var ctx = _context)
             {
-                return BadRequest();
-            }
+                var existingProg = ctx.Progression.Where(s => s.ProfilId == idProfil)
+                                                        .FirstOrDefault<Progression>();
 
-            _context.Entry(progression).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ProgressionExists(id))
+                if (existingProg != null)
                 {
-                    return NotFound();
+                    existingProg.GradeId = progression.GradeId;
+                    existingProg.DifficulteAnglais = progression.DifficulteAnglais;
+                    existingProg.DifficulteAnglais = progression.DifficulteAnglais;
+                    existingProg.DifficulteMaths = progression.DifficulteMaths;
+                    existingProg.Xpanglais = progression.Xpanglais;
+                    existingProg.Xpfrancais = progression.Xpfrancais;
+                    existingProg.Xpmaths = progression.Xpmaths;
+                    ctx.SaveChanges();
                 }
                 else
                 {
-                    throw;
+                    return NotFound();
+
                 }
+                return NoContent(); 
             }
-
-            return NoContent();
         }
-
-        // POST: api/ProgressionAPI
-        [HttpPost]
-        public async Task<ActionResult<Progression>> PostProgression(Progression progression)
-        {
-            _context.Progression.Add(progression);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetProgression", new { id = progression.Id }, progression);
-        }
-
         private bool ProgressionExists(int id)
         {
             return _context.Progression.Any(e => e.Id == id);
