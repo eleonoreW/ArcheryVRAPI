@@ -24,7 +24,19 @@ namespace Archery.Controllers
             var archeryVRContext = _context.Resultat.Include(r => r.Grade).Include(r => r.Profil);
             return View(await archeryVRContext.ToListAsync());
         }
-
+        // GET: Resultat/Graph/1
+        public async Task<IActionResult> Graph(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var archeryVRContext = _context.Resultat
+                .Include(r => r.Grade)
+                .Include(r => r.Profil)
+                .Where(s => s.ProfilId.Equals(id));
+            return View(await archeryVRContext.ToListAsync());
+        }
         // GET: Resultat/Details/5
         public async Task<IActionResult> Details(int? id)
         {

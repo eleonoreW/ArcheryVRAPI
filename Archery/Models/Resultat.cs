@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -12,7 +13,7 @@ namespace Archery.Models
         public int ProfilId { get; set; }
         [Required]
         public int GradeId { get; set; }
-        [Required]
+        [JsonIgnore]
         public DateTime DateResultat { get; set; }
         public int? DifficulteMaths { get; set; }
         public double? ResMaths { get; set; }

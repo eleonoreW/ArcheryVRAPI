@@ -1,0 +1,75 @@
+﻿@model IEnumerable<Archery.Models.Resultat>
+
+@{
+    ViewData["Title"] = "Graph";
+}
+
+<h1>Graph</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.DateResultat)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DifficulteMaths)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ResMaths)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DifficulteFrancais)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ResFrancais)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DifficulteAnglais)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ResAnglais)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Grade)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Profil)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateResultat)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DifficulteMaths)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ResMaths)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DifficulteFrancais)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ResFrancais)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DifficulteAnglais)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ResAnglais)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Grade.Nom)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Profil.Nom)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
