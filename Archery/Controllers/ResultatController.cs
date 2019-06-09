@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Archery.Models;
+using Newtonsoft.Json;
 
 namespace Archery.Controllers
 {
@@ -24,19 +25,10 @@ namespace Archery.Controllers
             var archeryVRContext = _context.Resultat.Include(r => r.Grade).Include(r => r.Profil);
             return View(await archeryVRContext.ToListAsync());
         }
-        // GET: Resultat/Graph/1
-        public async Task<IActionResult> Graph(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-            var archeryVRContext = _context.Resultat
-                .Include(r => r.Grade)
-                .Include(r => r.Profil)
-                .Where(s => s.ProfilId.Equals(id));
-            return View(await archeryVRContext.ToListAsync());
-        }
+
+
+      
+
         // GET: Resultat/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -173,5 +165,67 @@ namespace Archery.Controllers
         {
             return _context.Resultat.Any(e => e.Id == id);
         }
+
+        // Resultat/Graph/1
+        public async Task<IActionResult> Graph(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var archeryVRContext = _context.Resultat
+                .Include(r => r.Grade)
+                .Include(r => r.Profil)
+                .Where(s => s.ProfilId.Equals(id));
+
+            List<int> lvlInfos = new List<int>();
+            List<List<double>> listRes = new List<List<double>>();
+            List<List<string>> listDate = new List<List<string>>();
+
+            List<string> listResJson = new List<string>();
+            List<string> listDateJson = new List<string>();
+
+            foreach (var item in archeryVRContext)
+            {
+                var lvl = item.DifficulteMaths;
+                var x = item.ResMaths;
+                var y = item.DateResultat.ToShortDateString();
+
+                if (lvl == null)
+                    lvl = 0;
+                if (x == null)
+                    x = 0.0;
+                if (y == null)
+                    y = "unknown";
+
+                // verifie on a pas déja une liste pour ce lvl
+                var index = lvlInfos.IndexOf((int)lvl);
+                // si pas créée, on la créée
+                if (index == -1)
+                {
+                    lvlInfos.Add((int)lvl);
+                    listRes.Add(new List<double>());
+                    listDate.Add(new List<string>());
+
+                    index = lvlInfos.IndexOf((int)lvl);
+                }
+
+                listRes[index].Add((Math.Round((double)x, 2)));
+                listDate[index].Add((string)y);
+            }
+
+            for (int i = 0; i < lvlInfos.Count; i++)
+            {
+                listResJson.Add(JsonConvert.SerializeObject(listRes[i]));
+                listDateJson.Add(JsonConvert.SerializeObject(listDate[i]));
+            }
+
+            ViewBag.LVL = lvlInfos;
+            ViewBag.RES = listResJson;
+            ViewBag.DATE = listDateJson;
+
+            return View(await archeryVRContext.ToListAsync());
+        }
+
     }
 }

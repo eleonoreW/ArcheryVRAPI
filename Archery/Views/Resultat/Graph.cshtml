@@ -4,72 +4,84 @@
     ViewData["Title"] = "Graph";
 }
 
-<h1>Graph</h1>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.DateResultat)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DifficulteMaths)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ResMaths)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DifficulteFrancais)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ResFrancais)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DifficulteAnglais)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ResAnglais)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Grade)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Profil)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.DateResultat)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DifficulteMaths)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ResMaths)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DifficulteFrancais)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ResFrancais)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DifficulteAnglais)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ResAnglais)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Grade.Nom)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Profil.Nom)
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+
+
+<h1>Graph</h1>
+<h2></h2>
+<div class="container">
+    <div class="row">
+        @foreach (var lvl in ViewBag.LVL)
+        {
+            <div class="col-sm-6">
+                <p class="lead">Résultat du niveau @lvl</p>
+                <canvas id="level @lvl"></canvas>
+                <br />
+                </div>
+        }
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<script>
+
+        var nbLvl = @ViewBag.LVL.Count ;
+        var charts = [];
+
+        var lvlArray = [];
+
+        @foreach (var l in ViewBag.LVL )
+        {
+            @:lvlArray.push(@l);
+        }
+
+        var resArray = [];
+
+        @foreach (var r in ViewBag.RES)
+        {
+            @:resArray.push(@Html.Raw(r));
+        }
+
+        var dateArray = [];
+
+        @foreach (var dt in ViewBag.DATE )
+        {
+            @:dateArray.push(@Html.Raw(dt));
+        }
+
+
+        console.log(resArray);
+        console.log(dateArray);
+        for (var i = 0; i < nbLvl; i++) {
+
+            var lvl = lvlArray[i] ;
+            var ctx = document.getElementById('level ' + lvl).getContext('2d');
+
+            console.log("boucle " + i + " / " + " lvl " + lvl);
+
+            charts.push(new Chart(ctx, {
+            // The type of chart we want to create
+            type: 'line',
+
+            // The data for our dataset
+            data: {
+                labels: dateArray[i]
+                ,
+                datasets: [{
+                    label: 'Note (en %)',
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    data: resArray[i]
+                }]
+            },
+
+            // Configuration options go here
+            options: {}
+            }));
+
+        }
+
+
+
+</script>
+
